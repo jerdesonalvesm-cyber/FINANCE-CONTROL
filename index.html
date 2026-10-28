@@ -32,6 +32,63 @@ function authMode(m){mode=m;$('loginTab').classList.toggle('selected',m==='login
 function reset(){editId=null;$('txForm').reset();$('date').value=new Date().toISOString().slice(0,10);$('formTitle').textContent='Adicionar lançamento';$('save').textContent='Salvar lançamento';setKind('income')}
 function setKind(t){kind=t;document.querySelectorAll('#typeToggle [data-type]').forEach(b=>b.classList.toggle('selected',b.dataset.type===t))}
 function render(){const m=$('month').value,list=data.filter(x=>!m||(x.transaction_date||'').slice(0,7)===m);let inc=0,exp=0,sav=0;list.forEach(x=>{const n=Number(x.amount)||0;if(x.type==='income')inc+=n;else if(x.type==='expense')exp+=n;else sav+=n});$('income').textContent=money(inc);$('expense').textContent=money(exp);$('saved').textContent=money(sav);$('balance').textContent=money(inc-exp-sav);$('summary').textContent=`Entradas ${money(inc)} · Despesas ${money(exp)} · Guardado/investido ${money(sav)}.`;const sorted=[...data].sort((a,b)=>(b.transaction_date||'').localeCompare(a.transaction_date||''));const mini=sorted.slice(0,5);$('recent').innerHTML=mini.length?mini.map(x=>`<div class="item"><div><b>${esc(x.description)}</b><div class="muted">${esc(x.category)} · ${esc(x.transaction_date)}</div></div><b>${money(x.amount)}</b></div>`).join(''):'<div class="empty">Nenhum lançamento ainda.</div>';const q=$('search').value.toLowerCase(),ft=$('filterType').value,filtered=sorted.filter(x=>(!q||(`${x.description} ${x.category}`).toLowerCase().includes(q))&&(!ft||x.type===ft));$('rows').innerHTML=filtered.map(x=>`<tr><td>${esc(x.transaction_date)}</td><td>${esc(x.description)}</td><td>${esc(x.category)}</td><td>${label(x.type)}</td><td>${money(x.amount)}</td><td><button class="btn" data-edit="${x.id}">Editar</button> <button class="btn" data-del="${x.id}">Excluir</button></td></tr>`).join('');$('empty').classList.toggle('hidden',filtered.length>0);$('history').innerHTML=sorted.length?sorted.map(x=>`<div class="item"><div><b>${esc(x.description)}</b><div class="muted">${esc(x.transaction_date)} · ${esc(x.category)} · ${label(x.type)}</div></div><b>${money(x.amount)}</b></div>`).join(''):'<div class="empty">Histórico vazio.</div>';updateExpenseChart(list)}
+let expenseChart = null;
+function updateExpenseChart(list) {
+  const canvas = $('expenseChart');
+  const empty = $('chartEmpty');
+
+  if (!canvas || !empty) return;
+
+  const totals = {};
+
+  list.filter(x => x.type === 'expense').forEach(x => {
+    const category = x.category || 'Sem categoria';
+    totals[category] =
+      (totals[category] || 0) + (Number(x.amount) || 0);
+  });
+
+  if (expenseChart) {
+    expenseChart.destroy();
+    expenseChart = null;
+  }
+
+  const labels = Object.keys(totals);
+  const values = Object.values(totals);
+
+  if (labels.length === 0) {
+    empty.textContent = 'Ainda não há despesas neste período.';
+    return;
+  }
+
+  empty.textContent = '';
+
+  expenseChart = new Chart(canvas, {
+    type: 'doughnut',
+    data: {
+      labels: labels,
+      datasets: [{
+        data: values,
+        backgroundColor: [
+          '#ff5967', '#ff914d', '#ffcd56',
+          '#36a2eb', '#9966ff', '#4bc0c0',
+          '#e879f9', '#84cc16'
+        ]
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: 'bottom' },
+        tooltip: {
+          callbacks: {
+            label: context =>
+              context.label + ': ' + money(context.raw)
+          }
+        }
+      }
+    }
+  });
+}
 async function load(){if(!user)return;const {data:rows,error}=await db.from('transactions').select('*').eq('user_id',user.id).order('transaction_date',{ascending:false});if(error){msg('Erro ao carregar dados: '+error.message);return}data=rows||[];render()}
 async function authSubmit(e){e.preventDefault();if(!db){$('authMessage').textContent='Supabase não carregou. Verifique a internet e atualize a página.';return}const email=$('email').value.trim(),password=$('password').value,button=$('authSubmit');button.disabled=true;$('authMessage').textContent=mode==='signup'?'Criando conta...':'Entrando...';try{let r=mode==='signup'?await db.auth.signUp({email,password}):await db.auth.signInWithPassword({email,password});if(r.error)throw r.error;if(mode==='signup'&&!r.data.session){$('authMessage').textContent='Cadastro iniciado! Confira seu e-mail para confirmar a conta e depois entre.';return}if(r.data.user){user=r.data.user;await signedIn()}}catch(e){$('authMessage').textContent=e.message||'Erro de autenticação'}finally{button.disabled=false}}
 async function signedIn(){$('auth').classList.remove('visible');$('userEmail').textContent=user.email||'Conta conectada';await load()}
