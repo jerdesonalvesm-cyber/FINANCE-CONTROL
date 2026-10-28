@@ -7,7 +7,25 @@
 <div class="app"><header><div class="brand"><div class="logo">W</div><div><h1>Controle Financeiro <span style="color:#ff5967">Pro</span></h1><p>Seu dinheiro, no seu controle.</p></div></div><div class="actions"><button class="btn" id="export">Exportar CSV</button><button class="btn primary" id="quickAdd">＋ Lançamento</button></div></header>
 <div class="userbar"><span class="muted" id="userEmail">Verificando conta...</span><button class="btn" id="logout">Sair</button></div>
 <nav class="nav"><button class="active" data-page="dashboard">⌂ Início</button><button data-page="transactions">▤ Planilha</button><button data-page="add">＋ Lançamento</button><button data-page="categories">◈ Categorias</button><button data-page="history">◷ Histórico</button></nav>
-<section class="page active" id="page-dashboard"><div class="head"><div><h2>Dashboard principal</h2><p>Visão geral do seu financeiro</p></div><input class="field" id="month" type="month" style="max-width:175px"></div><div class="grid"><div class="card"><div class="metric-label">Saldo disponível</div><div class="metric-value" id="balance">R$ 0,00</div><small>Entradas − despesas − valores separados</small></div><div class="card"><div class="metric-label">Entradas</div><div class="metric-value green" id="income">R$ 0,00</div></div><div class="card"><div class="metric-label">Despesas</div><div class="metric-value red" id="expense">R$ 0,00</div></div><div class="card"><div class="metric-label">Guardado / investido</div><div class="metric-value purple" id="saved">R$ 0,00</div></div></div><div class="overview"><div class="card"><h3>Resumo do período</h3><p id="summary" class="muted"></p></div><div class="card"><h3>Últimos lançamentos</h3><div id="recent" class="list"></div></div></div></section>
+<section class="page active" id="page-dashboard"><div class="head"><div><h2>Dashboard principal</h2><p>Visão geral do seu financeiro</p></div><input class="field" id="month" type="month" style="max-width:175px"></div><div class="grid"><div class="card"><div class="metric-label">Saldo disponível</div><div class="metric-value" id="balance">R$ 0,00</div><small>Entradas − despesas − valores separados</small></div><div class="card"><div class="metric-label">Entradas</div><div class="metric-value green" id="income">R$ 0,00</div></div><div class="card"><div class="metric-label">Despesas</div><div class="metric-value red" id="expense">R$ 0,00</div></div><div class="card"><div class="metric-label">Guardado / investido</div><div class="metric-value purple" id="saved">R$ 0,00</div></div></div>
+<div class="overview">
+  <div class="card">
+    <h3>Resumo do período</h3>
+    <p id="summary" class="muted"></p>
+  </div>
+  <div class="card">
+    <h3>Últimos lançamentos</h3>
+    <div id="recent" class="list"></div>
+  </div>
+</div>
+
+<div class="card" style="margin-top:18px">
+  <h3>Despesas por categoria</h3>
+  <canvas id="expenseChart"></canvas>
+  <div id="chartEmpty" class="muted"></div>
+</div>
+</section>
+  
 <section class="page" id="page-transactions"><div class="head"><div><h2>Planilha financeira</h2><p>Seus lançamentos salvos online</p></div><button class="btn primary" data-goto="add">＋ Adicionar</button></div><div class="card"><div class="toolbar"><input class="field" id="search" placeholder="Pesquisar descrição"><select class="field" id="filterType"><option value="">Todos os tipos</option><option value="income">Entrada</option><option value="expense">Despesa</option><option value="saved">Guardado</option><option value="investment">Investido</option></select></div><div class="tablewrap"><table><thead><tr><th>Data</th><th>Descrição</th><th>Categoria</th><th>Tipo</th><th>Valor</th><th>Ações</th></tr></thead><tbody id="rows"></tbody></table></div><div id="empty" class="empty">Nenhum lançamento encontrado.</div></div></section>
 <section class="page" id="page-add"><div class="head"><div><h2 id="formTitle">Adicionar lançamento</h2><p>Registre suas movimentações</p></div></div><div class="card"><form id="txForm"><div class="group full" style="margin-bottom:14px"><label>Tipo de movimentação</label><div class="toggle" id="typeToggle"><button type="button" data-type="income" class="selected">Entrada</button><button type="button" data-type="expense">Despesa</button><button type="button" data-type="saved">Guardado</button><button type="button" data-type="investment">Investido</button></div></div><div class="formgrid"><div class="group full"><label for="description">Descrição</label><input class="field" id="description" required maxlength="100" placeholder="Ex.: salário, supermercado"></div><div class="group"><label for="amount">Valor (R$)</label><input class="field" id="amount" type="number" min="0.01" step="0.01" required></div><div class="group"><label for="date">Data</label><input class="field" id="date" type="date" required></div><div class="group full"><label for="category">Categoria</label><select class="field" id="category" required></select></div></div><div class="actions"><button class="btn" type="button" id="clear">Limpar</button><button class="btn primary" id="save" type="submit">Salvar lançamento</button></div></form></div></section>
 <section class="page" id="page-categories"><div class="head"><div><h2>Categorias</h2><p>Categorias disponíveis</p></div></div><div class="card"><div id="categories" class="list"></div></div></section>
