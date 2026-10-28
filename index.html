@@ -15,6 +15,7 @@
 <div class="auth visible" id="auth"><div class="authcard"><div class="brand"><div class="logo">W</div><div><h1>Controle Financeiro <span style="color:#ff5967">Pro</span></h1><p class="muted">Entre ou crie sua conta.</p></div></div><div class="toggle" style="margin-top:18px"><button type="button" id="loginTab" class="selected">Entrar</button><button type="button" id="signupTab">Criar conta</button></div><form id="authForm"><label>E-mail<input class="field" id="email" type="email" autocomplete="email" required placeholder="voce@exemplo.com"></label><label>Senha<input class="field" id="password" type="password" minlength="6" required autocomplete="current-password" placeholder="Mínimo 6 caracteres"></label><button class="btn primary" id="authSubmit" type="submit">Entrar</button><div class="msg" id="authMessage" role="status"></div></form><small>Se solicitado, confirme o cadastro pelo e-mail.</small></div></div><div class="toast" id="toast"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 'use strict';
 
 const SUPABASE_URL = 'https://tslaednlgwirspstakxj.supabase.co';
