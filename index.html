@@ -1,42 +1,113 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080b0d">
+<title>Controle Financeiro Pro</title>
+<style>
+:root{--bg:#07090b;--panel:#10171c;--panel2:#0c1216;--line:#26333c;--red:#ff2638;--red2:#b90d23;--green:#00d78a;--muted:#9aabb5;--text:#f3f7fa;--blue:#168dff;--purple:#7b4dff;--orange:#ff9d16}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% 0,#35060b 0,transparent 42%),var(--bg);color:var(--text);font:15px/1.45 Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+button,input,select,textarea{font:inherit}button{cursor:pointer} .app{max-width:1200px;margin:auto;padding:20px 18px 90px}
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px}.brand{display:flex;align-items:center;gap:12px}.logo{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,#ff3144,#8b0018);font-weight:900;font-size:23px;box-shadow:0 0 25px #ff203333}.brand h1{font-size:20px;margin:0}.brand p{margin:2px 0 0;color:var(--muted);font-size:12px}.header-actions{display:flex;gap:8px}.btn{border:1px solid var(--line);background:#121b20;color:var(--text);border-radius:11px;padding:10px 14px}.btn.primary{background:linear-gradient(120deg,#ff3444,#e40d28);border-color:#ff4050;font-weight:700}.btn.ghost-red{border-color:#a9192b;color:#ff5967}.btn.small{padding:7px 10px;font-size:13px}
+.nav{display:flex;gap:8px;padding:6px;background:#0d1216;border:1px solid #202b31;border-radius:14px;margin-bottom:18px;overflow:auto}.nav button{border:0;background:transparent;color:#aebac2;padding:11px 14px;border-radius:10px;white-space:nowrap}.nav button.active{background:#351016;color:#ff5967;box-shadow:inset 0 0 0 1px #79202b}
+.page{display:none}.page.active{display:block}.section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:22px 0 14px}.section-head h2{margin:0;font-size:21px}.section-head p{margin:4px 0 0;color:var(--muted);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.card{background:linear-gradient(145deg,#121a1f,#0b1013);border:1px solid var(--line);border-radius:17px;padding:17px;box-shadow:0 10px 28px #0002}.metric-label{color:#aebdc5;font-size:13px}.metric-value{font-size:clamp(19px,2.5vw,27px);font-weight:800;margin:7px 0 2px;letter-spacing:-.5px}.green{color:var(--green)}.red{color:#ff5361}.purple{color:#9c83ff}.orange{color:#ffb33c}.muted{color:var(--muted)}.overview-grid{display:grid;grid-template-columns:1.3fr .9fr;gap:14px;margin-top:14px}.card h3{margin:0 0 13px;font-size:15px}.chart-wrap{height:220px;position:relative}.chart-wrap canvas{width:100%;height:100%}.recent-list,.transaction-list,.category-list{display:grid;gap:8px}.item{display:flex;align-items:center;gap:11px;padding:11px;border:1px solid #202b31;border-radius:12px;background:#0c1216;min-width:0}.item-icon{width:38px;height:38px;display:grid;place-items:center;border-radius:12px;font-size:18px;flex-shrink:0}.item-main{min-width:0;flex:1}.item-main strong{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:14px}.item-main small{color:var(--muted);font-size:12px}.item-amount{text-align:right;font-weight:750;white-space:nowrap;font-size:14px}.toolbar{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:14px}.toolbar input,.toolbar select{flex:1;min-width:130px}.field{width:100%;background:#080e12;color:var(--text);border:1px solid #34444f;border-radius:10px;padding:12px;outline:none}.field:focus{border-color:#ff3447;box-shadow:0 0 0 3px #ff26381c}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.form-group{display:flex;flex-direction:column;gap:6px}.form-group label{font-size:13px;color:#c7d1d7}.form-group.full{grid-column:1/-1}.type-toggle{display:flex;gap:8px}.type-toggle button{flex:1;padding:11px;border-radius:10px;border:1px solid var(--line);background:#11191e;color:#c9d2d8}.type-toggle button.selected[data-type="income"]{background:#063b2b;border-color:#00b979;color:#4dffc0}.type-toggle button.selected[data-type="expense"]{background:#45121a;border-color:#ff3346;color:#ff8992}.type-toggle button.selected[data-type="saved"]{background:#211448;border-color:#7855ff;color:#c3b5ff}.type-toggle button.selected[data-type="investment"]{background:#42280a;border-color:#d98210;color:#ffd18a}
+.form-card{max-width:760px;margin:auto}.form-actions{display:flex;gap:9px;margin-top:16px}.form-actions button{flex:1}.table-wrap{overflow:auto}.table{width:100%;border-collapse:collapse;min-width:620px}.table th,.table td{text-align:left;padding:13px 10px;border-bottom:1px solid #243038;font-size:13px}.table th{color:#9eafb8;font-weight:600}.table td:last-child{text-align:right}.table-actions{display:flex;gap:6px;justify-content:flex-end}.pill{padding:4px 8px;border-radius:99px;background:#202a30;color:#b9c8d0;font-size:11px}.category-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.category-card{display:flex;align-items:center;gap:10px}.category-card .item-main{flex:1}.category-card button{background:transparent;color:#ff6571;border:0;padding:6px}.empty{text-align:center;padding:35px 15px;color:var(--muted)}.footer{text-align:center;color:#70818b;font-size:12px;padding:30px 0 0}.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#10251e;border:1px solid #147a56;color:#baffdf;border-radius:12px;padding:12px 18px;box-shadow:0 10px 40px #0008;display:none;z-index:20}.toast.show{display:block}.modal-backdrop{position:fixed;inset:0;background:#000a;display:none;place-items:center;padding:18px;z-index:10}.modal-backdrop.show{display:grid}.modal{width:min(540px,100%);background:#0d1418;border:1px solid #34414a;border-radius:18px;padding:20px}.modal h3{margin-top:0}
+@media(max-width:760px){.app{padding:14px 12px 80px}header{align-items:flex-start}.brand h1{font-size:17px}.header-actions .btn{padding:9px;font-size:12px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.card{padding:13px;border-radius:14px}.overview-grid{grid-template-columns:1fr}.section-head h2{font-size:19px}.nav{position:sticky;top:5px;z-index:5}.nav button{padding:10px 12px}.form-grid{grid-template-columns:1fr}.form-group.full{grid-column:auto}.category-grid{grid-template-columns:1fr}.metric-value{font-size:21px}.chart-wrap{height:190px}}
+@media(max-width:390px){.brand p{display:none}.header-actions .btn{padding:8px}.grid{gap:7px}.metric-label{font-size:12px}.metric-value{font-size:19px}}
 
-drop policy if exists "Cada usuario ve suas transacoes"
-on public.transacoes;
-
-drop policy if exists "Cada usuario cadastra suas transacoes"
-on public.transacoes;
-
-drop policy if exists "Cada usuario altera suas transacoes"
-on public.transacoes;
-
-drop policy if exists "Cada usuario exclui suas transacoes"
-on public.transacoes;
-
-alter table public.transacoes enable row level security;
-
-create policy "Cada usuario ve suas transacoes"
-on public.transacoes
-for select
-to authenticated
-using (auth.uid() = user_id);
-
-create policy "Cada usuario cadastra suas transacoes"
-on public.transacoes
-for insert
-to authenticated
-with check (auth.uid() = user_id);
-
-create policy "Cada usuario altera suas transacoes"
-on public.transacoes
-for update
-to authenticated
-using (auth.uid() = user_id)
-with check (auth.uid() = user_id);
-
-create policy "Cada usuario exclui suas transacoes"
-on public.transacoes
-for delete
-to authenticated
-using (auth.uid() = user_id);
-
-grant select, insert, update, delete
-on public.transacoes to authenticated;
+.auth-screen{position:fixed;inset:0;background:#07090bf5;z-index:100;display:grid;place-items:center;padding:18px;overflow:auto}.auth-card{width:min(460px,100%);background:#10171c;border:1px solid #26333c;border-radius:18px;padding:22px}.auth-card h2{margin:0 0 6px}.auth-card p{color:#9aabb5;font-size:13px}.auth-card form{display:grid;gap:12px}.auth-card .field{margin-top:5px}.auth-message{color:#ff9da6;min-height:20px;font-size:13px}.user-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 14px}.admin-screen{position:fixed;inset:0;z-index:90;background:#07090b;display:none;overflow:auto;padding:18px}.admin-screen.show{display:block}.admin-inner{max-width:1200px;margin:auto}.admin-table{width:100%;border-collapse:collapse;min-width:650px}.admin-table th,.admin-table td{padding:10px;border-bottom:1px solid #26333c;text-align:left;font-size:13px}.admin-table-wrap{overflow:auto}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+ <div class="brand"><div class="logo">W</div><div><h1>Controle Financeiro <span style="color:#ff5967">Pro</span></h1><p>Seu dinheiro, no seu controle.</p></div></div>
+ <div class="header-actions"><button class="btn" id="exportTop">Exportar CSV</button><button class="btn primary" id="quickAdd">＋ Lançamento</button></div>
+</header>
+<nav class="nav" aria-label="Navegação">
+ <button class="active" data-page="dashboard">⌂ Início</button><button data-page="transactions">▤ Planilha</button><button data-page="add">＋ Lançamento</button><button data-page="categories">◈ Categorias</button><button data-page="history">◷ Histórico</button>
+</nav>
+<main>
+<section class="page active" id="page-dashboard">
+ <div class="section-head"><div><h2>Dashboard Principal</h2><p>Visão geral do seu financeiro</p></div><input class="field" id="monthFilter" type="month" style="max-width:170px"></div>
+ <div class="grid">
+  <div class="card"><div class="metric-label">Saldo disponível</div><div class="metric-value" id="balance">R$ 0,00</div><small class="muted">Entradas − despesas + ajustes</small></div>
+  <div class="card"><div class="metric-label">Entradas</div><div class="metric-value green" id="incomeTotal">R$ 0,00</div><small class="muted">Receitas no período</small></div>
+  <div class="card"><div class="metric-label">Despesas</div><div class="metric-value red" id="expenseTotal">R$ 0,00</div><small class="muted">Gastos no período</small></div>
+  <div class="card"><div class="metric-label">Guardado / Investido</div><div class="metric-value purple" id="savedTotal">R$ 0,00</div><small class="muted">Valores separados</small></div>
+ </div>
+ <div class="overview-grid">
+  <div class="card"><h3>Entradas x Despesas</h3><div class="chart-wrap"><canvas id="chart"></canvas></div></div>
+  <div class="card"><h3>Últimos lançamentos <button class="btn small" style="float:right" data-goto="transactions">Ver todos</button></h3><div class="recent-list" id="recentList"></div></div>
+ </div>
+</section>
+<section class="page" id="page-transactions">
+ <div class="section-head"><div><h2>Planilha Financeira</h2><p>Registre, edite e organize seus lançamentos</p></div><button class="btn primary" data-goto="add">＋ Adicionar</button></div>
+ <div class="grid" style="margin-bottom:14px;grid-template-columns:repeat(3,minmax(0,1fr))">
+  <div class="card"><div class="metric-label">Total entradas</div><div class="metric-value green" id="tableIncome">R$ 0,00</div></div>
+  <div class="card"><div class="metric-label">Total despesas</div><div class="metric-value red" id="tableExpense">R$ 0,00</div></div>
+  <div class="card"><div class="metric-label">Saldo do período</div><div class="metric-value" id="tableBalance">R$ 0,00</div></div>
+ </div>
+ <div class="card"><div class="toolbar"><input class="field" id="search" placeholder="⌕ Pesquisar lançamentos..."><select class="field" id="typeFilter"><option value="">Todos os tipos</option><option value="income">Entrada</option><option value="expense">Despesa</option><option value="saved">Guardado</option><option value="investment">Investido</option></select><select class="field" id="categoryFilter"><option value="">Todas as categorias</option></select><input class="field" id="fromDate" type="date" aria-label="Data inicial"><input class="field" id="toDate" type="date" aria-label="Data final"></div>
+ <div class="table-wrap"><table class="table"><thead><tr><th>Data</th><th>Descrição</th><th>Categoria</th><th>Tipo</th><th>Valor</th><th>Ações</th></tr></thead><tbody id="transactionRows"></tbody></table></div><div id="tableEmpty" class="empty" hidden>Nenhum lançamento encontrado.</div></div>
+</section>
+<section class="page" id="page-add">
+ <div class="section-head"><div><h2 id="formTitle">Adicionar lançamento</h2><p>Registre suas movimentações com facilidade</p></div></div>
+ <div class="card form-card">
+  <form id="transactionForm">
+   <div class="form-group full" style="margin-bottom:15px"><label>Tipo de movimentação</label><div class="type-toggle"><button type="button" data-type="income" class="selected">Entrada</button><button type="button" data-type="expense">Despesa</button><button type="button" data-type="saved">Guardado</button><button type="button" data-type="investment">Investido</button></div></div>
+   <div class="form-grid">
+    <div class="form-group full"><label for="description">Descrição</label><input class="field" id="description" required maxlength="100" placeholder="Ex.: Salário, supermercado..."></div>
+    <div class="form-group"><label for="amount">Valor (R$)</label><input class="field" id="amount" required type="number" min="0.01" step="0.01" placeholder="0,00"></div>
+    <div class="form-group"><label for="date">Data</label><input class="field" id="date" required type="date"></div>
+    <div class="form-group full"><label for="category">Categoria</label><select class="field" id="category" required></select></div>
+    <div class="form-group full"><label for="notes">Observações (opcional)</label><textarea class="field" id="notes" rows="3" maxlength="500" placeholder="Digite alguma observação..."></textarea></div>
+   </div>
+   <div class="form-actions"><button type="button" class="btn" id="cancelEdit">Limpar</button><button class="btn primary" type="submit" id="saveTransaction">Salvar lançamento</button></div>
+  </form>
+ </div>
+</section>
+<section class="page" id="page-categories">
+ <div class="section-head"><div><h2>Categorias personalizáveis</h2><p>Crie e organize suas categorias</p></div><button class="btn primary" id="newCategory">＋ Categoria</button></div>
+ <div class="card"><div class="category-grid" id="categoryList"></div></div>
+</section>
+<section class="page" id="page-history">
+ <div class="section-head"><div><h2>Histórico completo</h2><p>Todos os seus lançamentos organizados por data</p></div><button class="btn" id="exportHistory">⇩ Exportar CSV</button></div>
+ <div class="card"><div id="historyList" class="transaction-list"></div></div>
+</section>
+</main>
+<div class="footer">🔒 Seus lançamentos são armazenados online e protegidos pela sua conta • Controle Financeiro Pro</div>
+</div>
+<div class="user-bar" id="userBar" style="display:none"><span class="muted" id="userEmail"></span><button class="btn small" id="adminOpen" style="display:none">Área administrativa</button><button class="btn small ghost-red" id="signOut">Sair</button></div>
+<div class="auth-screen" id="authScreen"><div class="auth-card"><div class="brand" style="margin-bottom:18px"><div class="logo">W</div><div><h1>Controle Financeiro <span style="color:#ff5967">Pro</span></h1><p>Entre ou crie sua conta para salvar seus dados online.</p></div></div><div class="type-toggle" style="margin-bottom:14px"><button type="button" id="showLogin" class="selected">Entrar</button><button type="button" id="showSignup">Criar conta</button></div><form id="authForm"><label>E-mail<input class="field" id="authEmail" type="email" autocomplete="email" required placeholder="voce@exemplo.com"></label><label>Senha<input class="field" id="authPassword" type="password" autocomplete="current-password" minlength="6" required placeholder="Mínimo de 6 caracteres"></label><button class="btn primary" id="authSubmit">Entrar</button><div class="auth-message" id="authMessage" role="status"></div></form><small class="muted">Seus lançamentos ficam vinculados à sua conta.</small></div></div>
+<div class="admin-screen" id="adminScreen"><div class="admin-inner"><div class="section-head"><div><h2>Área administrativa</h2><p>Consulta de lançamentos de todos os usuários</p></div><button class="btn" id="adminClose">Voltar ao meu painel</button></div><div class="card"><p id="adminStatus" class="muted">Carregando dados...</p><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Usuário (ID)</th><th>Data</th><th>Descrição</th><th>Categoria</th><th>Tipo</th><th>Valor</th></tr></thead><tbody id="adminRows"></tbody></table></div></div></div></div>
+<div class="toast" id="toast" role="status"></div>
+<div class="modal-backdrop" id="categoryModal"><div class="modal"><h3 id="categoryModalTitle">Nova categoria</h3><form id="categoryForm"><div class="form-group"><label for="categoryName">Nome da categoria</label><input class="field" id="categoryName" required maxlength="35" placeholder="Ex.: Pets"></div><div class="form-group" style="margin-top:12px"><label for="categoryIcon">Ícone (emoji)</label><input class="field" id="categoryIcon" maxlength="4" value="📦" placeholder="📦"></div><div class="form-actions"><button class="btn" type="button" id="closeCategory">Cancelar</button><button class="btn primary" type="submit">Salvar categoria</button></div></form></div></div>
+<script>
+const defaultCategories=[
+ {name:"Alimentação",icon:"🍽️",color:"#ff9d16"},{name:"iFood",icon:"🛵",color:"#ff3444"},{name:"Transporte",icon:"🚌",color:"#168dff"},{name:"Contas da casa",icon:"🏠",color:"#14c995"},{name:"Compras",icon:"🛒",color:"#c94bff"},{name:"Lazer",icon:"🎮",color:"#517bff"},{name:"Saúde",icon:"❤️",color:"#ff5361"},{name:"Salário",icon:"💵",color:"#00d78a"},{name:"Renda extra",icon:"🪙",color:"#ffb33c"},{name:"Investidos",icon:"📈",color:"#168dff"},{name:"Guardados",icon:"🐷",color:"#9c83ff"},{name:"Outros",icon:"📦",color:"#82909a"}
+];
+const typeNames={income:"Entrada",expense:"Despesa",saved:"Guardado",investment:"Investido"};
+const typeIcons={income:"↗",expense:"↘",saved:"🐷",investment:"📈"};
+let categories=load("cf_categories",defaultCategories),transactions=load("cf_transactions",[]);
+let selectedType="income",editingId=null,editingCategory=null;
+function load(k,f){try{const v=localStorage.getItem(k);return v?JSON.parse(v):f}catch{return f}}
+function persist(){localStorage.setItem("cf_categories",JSON.stringify(categories));localStorage.setItem("cf_transactions",JSON.stringify(transactions))}
+function money(n){return Number(n||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"})}
+function localDate(d=new Date()){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`}
+function fmtDate(s){if(!s)return "—";return new Date(s+"T12:00:00").toLocaleDateString("pt-BR")}
+function cat(name){return categories.find(c=>c.name===name)||{name:name||"Outros",icon:"📦",color:"#82909a"}}
+function signed(t){return t.type==="expense"?-Number(t.amount):Number(t.amount)}
+function sum(list,type){return list.filter(t=>t.type===type).reduce((a,t)=>a+Number(t.amount),0)}
+function escapeHtml(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function toast(msg){const el=document.getElementById("toast");el.textContent=msg;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),2300)}
+function go(page){document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id==="page-"+page));document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===page));if(page==="add"&&!editingId)resetForm();window.scrollTo({top:0,behavior:"smooth"})}
+document.querySelectorAll("[data-page]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.page)));
+document.querySelectorAll("[data-goto]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.goto)));
+document.getElementById("quickAdd").onclick=()=>{editingId=null;go("add")};
+function renderSelects(){const opts=categories.map(c=>`<option value="${escapeHtml(c.name)}">${c.icon} ${escapeHtml(c.name)}</option>`).join("");document.getElementById("category").innerHTML=opts;document.getElementById("categoryFilter").innerHTML='<option value="">Todas as categorias</option>'+opts}
+function monthTransactions(){const m=document.getElementById("monthFilter").value;return transactions.filter(t=>!m||t.date.startsWith(m))}
+function filteredTransactions(){let list=[...transactions];const q=document.getElementById("search").value.toLowerCase().trim(),ty=document.getElementById("typeFilter").value,ca=document.getElementById("categoryFilter").value,from=document.getElementById("fromDate").value,to=document.getElementById("toDate").value;return list.filter(t=>(!q||(t.description+" "+t.category+" "+(t.notes||"")).toLowerCase().includes(q))&&(!ty||t.type===ty)&&(!ca||t.category===ca)&&(!from||t.date>=from)&&(!to||t.date<=to)).sort((a,b)=>b.date.localeCompare(a.date)||b.createdAt-a.createdAt)}
+function renderDashboard(){const list=monthTransactions(),inc=sum(list,"income"),exp=sum(list,"expense"),sav=sum(
