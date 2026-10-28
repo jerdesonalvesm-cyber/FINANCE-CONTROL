@@ -53,6 +53,30 @@ header{padding:15px 17px;border:1px solid #2b2b3a;border-radius:20px;background:
 </style>
 </head>
 <body>
+ <script>
+document.addEventListener('DOMContentLoaded', function () {
+  const login = document.getElementById('showLogin');
+  const signup = document.getElementById('showSignup');
+  const submit = document.getElementById('authSubmit');
+  const password = document.getElementById('authPassword');
+
+  if (!login || !signup || !submit) return;
+
+  login.addEventListener('click', function () {
+    submit.textContent = 'Entrar';
+    if (password) password.setAttribute('autocomplete', 'current-password');
+    login.classList.add('selected');
+    signup.classList.remove('selected');
+  });
+
+  signup.addEventListener('click', function () {
+    submit.textContent = 'Criar minha conta';
+    if (password) password.setAttribute('autocomplete', 'new-password');
+    signup.classList.add('selected');
+    login.classList.remove('selected');
+  });
+});
+ </script>
 <div class="app">
 <header>
  <div class="brand"><div class="logo">W</div><div><h1>Controle Financeiro <span style="color:#ff5967">Pro</span></h1><p>Seu dinheiro, no seu controle.</p></div></div>
